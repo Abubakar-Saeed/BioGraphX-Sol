@@ -18,15 +18,16 @@ _cells/
 *.bib
 BioGraphX_Sol.tex
 Supplementary.tex
+Paper/
 
 # ESM-2 embedding caches - regenerate with esm_embeddings.py (large, and
 # tied to whatever raw sequences you're currently working with).
 esm_embeddings/
 *.npz
 
-# Ad-hoc / regenerable training run output. "Encoded Data/" and
+# Ad-hoc / regenerable training run output. "Raw Data/", "Encoded Data/" and
 # "Models Weights/" ARE tracked in this repo (unlike BioGraphX-IDP) -
-# only new runs outside those two folders are ignored.
+# only new runs outside those folders are ignored.
 biographx_sol_nn_results*/
 models_protsatt/
 importance_protsatt/

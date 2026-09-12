@@ -17,9 +17,9 @@ By keeping the two information sources separate until they are combined, BioGrap
 | `esm_embeddings.py` | Per-residue ESM-2 embedding generation for a CSV of sequences (identical across the BioGraphX-* repos). |
 | `training/` | Training code for the 5-seed XGBoost baseline, the jointly-trained graph_only / esm_only / gated_hybrid neural configurations, and the post-hoc XGB+ESM ensemble (primary configuration). |
 | `inference.py` | Unified prediction script - pick a trained checkpoint (or the ensemble) and get a solubility probability for new proteins. |
-| `Encoded Data/` | The eSOL train/test and *S. cerevisiae* CSVs, already run through the encoder (200 features + `Label`). |
+| `Raw Data/` | The raw eSOL train/test and *S. cerevisiae* sequence CSVs (`gene`, `sequence`, `solubility`). |
+| `Encoded Data/` | The same proteins run through the encoder (200 features + `Label`) - reproduces byte-for-byte from `Raw Data/`. |
 | `Models Weights/` | 5-seed trained checkpoints for every configuration, ready to use with `inference.py` without retraining. |
-
 
 ## Repository structure
 
@@ -45,6 +45,10 @@ BioGraphX-Sol/
 │   ├── alpha_sweep_xgb_esm.py        # post-hoc XGBoost + ESM-only ensemble (loads saved checkpoints, no retraining)
 │   └── alpha_sweep_graph_esm.py      # post-hoc graph_only + ESM-only ensemble (same, held-out-slice alpha selection)
 ├── inference.py                      # Unified inference + zero-shot evaluation across all 5 configurations
+├── Raw Data/
+│   ├── eSol_train.csv                 # 2019 proteins - gene, sequence, solubility
+│   ├── eSol_test.csv                  # 660 proteins
+│   └── S.cerevisiae_test.csv          # 108 proteins (zero-shot external test)
 ├── Encoded Data/
 │   ├── eSol_train_encoded.csv        # 2019 proteins
 │   ├── eSol_test_encoded.csv         # 660 proteins
@@ -88,10 +92,12 @@ P0A6F5,MKTAYIAKQRQISFVKSHFSRQLEERLGLIEVQAP...,0.82
 
 ```bash
 cd BioGraphX-Sol-Encoding
-python run.py --input-file eSol_train.csv \
-              --output-file eSol_train_encoded.csv \
+python run.py --input-file "../Raw Data/eSol_train.csv" \
+              --output-file "../Encoded Data/eSol_train_encoded.csv" \
               --n-jobs 8
 ```
+
+This reproduces the committed `Encoded Data/eSol_train_encoded.csv` byte-for-byte from `Raw Data/eSol_train.csv` - verified on all 2,787 proteins across the three raw files in this repo.
 
 Output: one row per protein, `ID, [Label,] <200 feature columns>`. The 200 feature names are exported as `biographx_sol.SOLUBILITY_FEATURE_NAMES`.
 
@@ -211,7 +217,7 @@ python inference.py --model-type ensemble \
 
 - The 200-feature encoder and the ESM-2 mean-pooling both operate purely on sequence - no experimental or predicted structure is used anywhere in the pipeline.
 - The eSOL 2019/660 split and the 108-protein *S. cerevisiae* zero-shot benchmark follow the GATSol/ProtSATT protocol exactly, so results are directly comparable to published baselines on the same splits.
-- `BioGraphX-Sol-Encoding`'s output header was verified column-for-column against the committed `Encoded Data/*.csv` files; end-to-end plumbing (encode -> train -> save checkpoint -> load checkpoint -> infer/ensemble, for all configurations) was verified by running the actual scripts, not just import checks. Full numeric reproduction against the exact reference values could not be verified in this session because the raw (pre-encoding) sequence CSVs were not available locally - only the already-encoded feature CSVs were.
+- `BioGraphX-Sol-Encoding/run.py` reproduces `Encoded Data/*.csv` byte-for-byte from the raw sequences, verified on all 2,787 proteins (2019 + 660 + 108). End-to-end plumbing (encode -> train -> save checkpoint -> load checkpoint -> infer/ensemble, for all configurations) was verified by running the actual scripts, not just import checks.
 
 ## License
 
