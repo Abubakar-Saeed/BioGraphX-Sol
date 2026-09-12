@@ -53,9 +53,10 @@ BioGraphX-Sol/
 │   ├── eSol_train_encoded.csv        # 2019 proteins
 │   ├── eSol_test_encoded.csv         # 660 proteins
 │   └── S.cerevisiae_test_encoded.csv # 108 proteins (zero-shot external test)
-├── Models Weights/
+├── Models Weights/                   # only the checkpoints actually used for evaluation are kept -
+│   │                                 # per-fold CV checkpoints are training-time intermediates and are not included
 │   ├── xgboost_models/               # seed_{2024..2028}.json
-│   ├── graph_only/                   # model_seed{s}_fold{k}.pt, model_seed{s}_refit.pt, summary.csv
+│   ├── graph_only/                   # model_seed{s}_refit.pt (x5), summary.csv
 │   ├── esm_only/                     # (same layout)
 │   ├── gated_hybrid/                 # (same layout) + gate_history.csv
 │   └── ensemble/                     # alpha_sweep_seed{s}.csv, metrics_per_seed.csv, summary.csv
