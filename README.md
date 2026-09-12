@@ -217,7 +217,7 @@ python inference.py --model-type ensemble \
 
 - The 200-feature encoder and the ESM-2 mean-pooling both operate purely on sequence - no experimental or predicted structure is used anywhere in the pipeline.
 - The eSOL 2019/660 split and the 108-protein *S. cerevisiae* zero-shot benchmark follow the GATSol/ProtSATT protocol exactly, so results are directly comparable to published baselines on the same splits.
-- `BioGraphX-Sol-Encoding/run.py` reproduces `Encoded Data/*.csv` byte-for-byte from the raw sequences, verified on all 2,787 proteins (2019 + 660 + 108). End-to-end plumbing (encode -> train -> save checkpoint -> load checkpoint -> infer/ensemble, for all configurations) was verified by running the actual scripts, not just import checks.
+
 
 ## License
 
