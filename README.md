@@ -20,7 +20,6 @@ By keeping the two information sources separate until they are combined, BioGrap
 | `Encoded Data/` | The eSOL train/test and *S. cerevisiae* CSVs, already run through the encoder (200 features + `Label`). |
 | `Models Weights/` | 5-seed trained checkpoints for every configuration, ready to use with `inference.py` without retraining. |
 
-Unlike the other BioGraphX-* repos, **`Encoded Data/` and `Models Weights/` are committed here** so the trained models are usable out of the box.
 
 ## Repository structure
 
