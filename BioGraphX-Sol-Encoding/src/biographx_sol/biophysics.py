@@ -85,7 +85,7 @@ class BioPhysicsStrategy:
             'K':0.2, 'L':0.6, 'M':0.5, 'N':0.2, 'P':0.1, 'Q':0.2, 'R':0.2, 'S':0.2,
             'T':0.3, 'V':0.6, 'W':0.8, 'Y':0.7
         }
-        # Complete Guruprasad & Pandit (1990) instability index weights (real table)
+        # Complete Guruprasad & Pandit (1990) instability index weights 
         self.instability_weights = {
             'AA': 1.0,  'AC': 0.5,  'AD': 0.5,  'AE': 0.5,  'AF': 1.0,  'AG': 0.5,  'AH': 0.5,
             'AI': 1.0,  'AK': 1.0,  'AL': 1.0,  'AM': 1.0,  'AN': 0.5,  'AP': 1.0,  'AQ': 0.5,
